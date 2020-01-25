@@ -2,21 +2,21 @@
 
 set -e
 
-# Function to place Firefox windows by desktops after restore session.
-# Firefox has long BUG https://bugzilla.mozilla.org/show_bug.cgi?id=372650#c54 (created 2007-03-05!) which make hassle of windows!
+# Function to place Nightly windows by desktops after restore session.
+# Nightly has long BUG https://bugzilla.mozilla.org/show_bug.cgi?id=372650#c54 (created 2007-03-05!) which make hassle of windows!
 # I use at least 11 windows and it is very hard to place them on correct desktop each time. So I write that workaround.
 #
 # Partially idea borrowed from attempt https://github.com/zepalmer/script-vdr/blob/master/vdr, but I choose different approach:
 # instead of periodically save window titles into file (which is very unstable because of many tabs in each) I just label each window with custom label
 # by default match with desktop label (name).
 # 
-# For set Firefox windows custom titles used extension (OpenSource): https://addons.mozilla.org/en-GB/firefox/addon/window-titler/
+# For set Nightly windows custom titles used extension (OpenSource): https://addons.mozilla.org/en-GB/Nightly/addon/window-titler/
 #
 # Now match is very simple - just one grep, but you may use regular expression or special symbols...
 # 
 # Example:
 # I have few desktops with names: Egais, DevOps, Home
-# For Firefox windows I set tiltles accordingly (with extension) like "Home", then window title become: "[Home] Google - Mozilla Firefox"
+# For Nightly windows I set tiltles accordingly (with extension) like "Home", then window title become: "[Home] Google - Mozilla Nightly"
 # And it give me abbility understand on which desktop it should be placed.
 # So I just call this function like:
 # placeWindowOnDesktop Home
@@ -25,7 +25,7 @@ set -e
 # You may provide second argument to match desktop name if it is not same to match as for window, like:
 # placeWindowOnDesktop Home 'Second desktop'
 #
-# For more clever and automatic way distribute all windows {@see matchAllFirefoxWindowsByDesktops} function
+# For more clever and automatic way distribute all windows {@see matchAllNightlyWindowsByDesktops} function
 #
 # $1 - window sub-sting name. wmctrl by default find only first matching window, but we will place all, if more then one matched!
 # $2 - (optional) desktop sub-sting name. It is is not present - $1 used
@@ -57,19 +57,19 @@ function deskName(){
 #placeWindowOnDesktop RDC
 #placeWindowOnDesktop ЦИК
 
-# Magic function to distribute all Firefox windows by its desktops automatically!
-# This is consider only Firefox windows, and get desktop tag-name from [] square brackets.
+# Magic function to distribute all Nightly windows by its desktops automatically!
+# This is consider only Nightly windows, and get desktop tag-name from [] square brackets.
 # F.e. for windows:
-# $ wmctrl -lx | fgrep 'Navigator.Firefox'
-# 0x03a000c5  3 Navigator.Firefox     2.hubbitus.taskdata [Home] bash - Extract string from brackets - Stack Overflow - Mozilla Firefox
-# 0x03a000ad  5 Navigator.Firefox     2.hubbitus.taskdata [RDC] rdc-iac-ansible/cleaning-snapshots.sh at ebf2122335387a66cb043f0480d8f38e6a087d39 · RegDC/rdc-iac-ansible - Mozilla Firefox
-# 0x03a00089  5 Navigator.Firefox     2.hubbitus.taskdata [RDC] How to slice an array in Bash - Stack Overflow - Mozilla Firefox
-# 0x03a000b9  0 Navigator.Firefox     2.hubbitus.taskdata [Egais] Firefox desktop placement issue - Mozilla Firefox
+# $ wmctrl -lx | fgrep 'Navigator.Nightly'
+# 0x03a000c5  3 Navigator.Nightly     2.hubbitus.taskdata [Home] bash - Extract string from brackets - Stack Overflow - Mozilla Nightly
+# 0x03a000ad  5 Navigator.Nightly     2.hubbitus.taskdata [RDC] rdc-iac-ansible/cleaning-snapshots.sh at ebf2122335387a66cb043f0480d8f38e6a087d39 · RegDC/rdc-iac-ansible - Mozilla Nightly
+# 0x03a00089  5 Navigator.Nightly     2.hubbitus.taskdata [RDC] How to slice an array in Bash - Stack Overflow - Mozilla Nightly
+# 0x03a000b9  0 Navigator.Nightly     2.hubbitus.taskdata [Egais] Nightly desktop placement issue - Mozilla Nightly
 # Home, RDC and Egais will be searched in desktop names for place windows on it accordingly!
-function matchAllFirefoxWindowsByDesktops(){
-	for word in $( wmctrl -lx | fgrep 'Navigator.Firefox' | awk -F"[][]" '{print $2}' | sort -u ); do
+function matchAllNightlyWindowsByDesktops(){
+	for word in $( wmctrl -lx | fgrep 'Navigator.Nightly' | awk -F"[][]" '{print $2}' | sort -u ); do
 		placeWindowOnDesktop "[$word]" "$word"
 	done
 }
 
-matchAllFirefoxWindowsByDesktops
+matchAllNightlyWindowsByDesktops
