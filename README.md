@@ -3,7 +3,7 @@ I just changed it so that it works with Firefox Nightly instead of Firefox.
 
 # Dependencies
 
-Window Titler (https://addons.mozilla.org/en-GB/firefox/addon/window-titler/)
+[Window Titler](https://addons.mozilla.org/en-GB/firefox/addon/window-titler/)
 
 # How to use
 
